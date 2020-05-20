@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <meta charset="utf-8">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script>
+                    var dbName;       
+                    function getDbList()
+                    {
+                        $("#dbDropDown").html("<img src=loading.gif />");
+                        $.ajax({url: "getDbList.php", success: function(result){
+                        $("#dbDropDown").html(result);
+                        }});
+                    }
+                    function getDbName()
+                    {
+                        var temp = document.getElementById("dbList");
+                        dbName = temp.options[temp.selectedIndex].value;
+                         $("#TableDropDown").html("<img src=loading.gif />");
+
+                        $.ajax({url: "getTablesList.php?dbName="+dbName, success: function(result){
+                        $("#TableDropDown").html(result);
+                        }});
+                    }
+                    function getTableName()
+                    {
+                        var temp = document.getElementById("TablesList");
+                        var tablename = temp.options[temp.selectedIndex].value;
+                         $("#results").html("<img src=loading.gif />");
+
+                        $.ajax({url: "http://165.22.14.77:8080/LakshmaReddy/getTable.jsp?DatabaseName="+dbName+"&TableName="+tablename, crossDomain: "true", success: function(result){
+                        $("#results").html(result);
+                        }});
+                    }
+                </script>
+        </head>
+        <body onload="getDbList()">
+            <div id="dbDropDown"></div>
+            <div id="TableDropDown"></div>
+            <div id="results"></div> 
+       </body>
+</html>
+
